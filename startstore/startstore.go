@@ -1,12 +1,15 @@
 package startstore
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 )
+
+const sep = ":"
 
 func fileExists(fileName string) (bool, error) {
 	_, err := os.Stat(fileName)
@@ -18,7 +21,7 @@ func fileExists(fileName string) (bool, error) {
 	return true, nil
 }
 
-func StoreLatestStart(file string, number uint64) error {
+func StoreLatestStart(file string, start, count uint64) error {
 	// Create dir if it does not exist
 	if _, err := os.Stat(file); os.IsNotExist(err) {
 		dir, _ := filepath.Split(file)
@@ -29,7 +32,7 @@ func StoreLatestStart(file string, number uint64) error {
 	}
 
 	// Write bytes to file
-	data := []byte(strconv.FormatUint(number, 10))
+	data := []byte(fmt.Sprintf("%d%s%d", start, sep, count))
 	err := ioutil.WriteFile(file, data, 0600)
 	if err != nil {
 		return err
@@ -37,23 +40,28 @@ func StoreLatestStart(file string, number uint64) error {
 	return nil
 }
 
-func ReadLatestStart(file string) (uint64, error) {
+func ReadLatestStart(file string) (start, count uint64, err error) {
 	// If it exists, load and return
 	exists, err := fileExists(file)
 	if err != nil {
-		return 0, err
+		return 0, 0, err
 	}
 	if exists {
 		data, err := ioutil.ReadFile(file)
 		if err != nil {
-			return 0, err
+			return 0, 0, err
 		}
-		block, err := strconv.ParseUint(strings.TrimSpace(string(data)), 10, 0)
+		ns := strings.Split(strings.TrimSpace(string(data)), sep)
+		start, err = strconv.ParseUint(strings.TrimSpace(ns[0]), 10, 0)
 		if err != nil {
-			return 0, err
+			return 0, 0, err
 		}
-		return block, nil
+		count, err = strconv.ParseUint(strings.TrimSpace(ns[0]), 10, 0)
+		if err != nil {
+			return 0, 0, err
+		}
+		return 0, 0, nil
 	}
 	// Otherwise just return 0
-	return 0, nil
+	return start, count, nil
 }

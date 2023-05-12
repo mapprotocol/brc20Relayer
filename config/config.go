@@ -27,7 +27,8 @@ type Config struct {
 	URL            string         `json:"url"`
 	URL2           string         `json:"url2"`
 	Contract       string         `json:"contract"`
-	StartNumber    uint64         `json:"startNumber"`
+	Start          uint64         `json:"start"`
+	Count          uint64         `json:"count"`
 	DatabaseConfig DataBaseConfig `json:"databaseConfig"`
 }
 

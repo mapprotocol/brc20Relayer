@@ -9,14 +9,3 @@ require (
 	gorm.io/driver/mysql v1.5.0
 	gorm.io/gorm v1.25.1
 )
-
-require (
-	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
-	github.com/go-sql-driver/mysql v1.7.0 // indirect
-	github.com/go-stack/stack v1.8.1 // indirect
-	github.com/holiman/uint256 v1.2.2-0.20230321075855-87b91420868c // indirect
-	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.5 // indirect
-	github.com/russross/blackfriday/v2 v2.1.0 // indirect
-	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
-)

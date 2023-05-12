@@ -56,11 +56,10 @@ func run(ctx *cli.Context) error {
 
 	db.Init(cfg.DatabaseConfig.User, cfg.DatabaseConfig.Password, cfg.DatabaseConfig.Host, cfg.DatabaseConfig.Port, cfg.DatabaseConfig.Name)
 
-	start, err := startstore.ReadLatestStart(ctx.String(config.BlockStorePathFlag.Name))
+	cfg.Start, cfg.Count, err = startstore.ReadLatestStart(ctx.String(config.BlockStorePathFlag.Name))
 	if err != nil {
 		return err
 	}
-	cfg.StartNumber = start
 
 	go func() {
 		// poll
